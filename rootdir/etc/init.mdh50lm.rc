@@ -1,0 +1,16 @@
+# This file will be installed as /init.{ro.hardware}.rc
+import /vendor/etc/init/hw/init.mt6765.rc
+
+# to override init.mt6765.rc and init.project.rc
+import /vendor/etc/init/hw/init.lge.usb.rc
+import /vendor/etc/init/hw/init.lge.usb.configfs.rc
+import /vendor/etc/init/init.lge.fs.rc
+
+# import rc file for chipset[mt6765] common
+import /vendor/etc/init/hw/init.mt6765_core.rc
+
+# LGE FM Radio rc
+import /init.lge.fm.rc
+
+# This file will be installed as /init.{ro.hardware}.vendor.rc
+import /vendor/etc/init/hw/init.${ro.hardware}.vendor.rc

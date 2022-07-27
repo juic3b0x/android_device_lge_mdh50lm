@@ -1,0 +1,8 @@
+on boot
+    chown system system /dev/esfp0
+    chmod 0644 /dev/esfp0
+    chown system system /sys/devices/platform/egis_input/navigation_event
+    chown system system /sys/devices/platform/egis_input/navigation_enable
+
+on property:ro.vendor.lge.minios.bootstart=1
+    stop vendor.lge-biometrics-fingerprint-hal-2-1

@@ -1,0 +1,13 @@
+on boot
+    chown system system /sys/devices/virtual/input/lge_sar_rf/regreset
+    chown system system /sys/devices/virtual/input/lge_sar_rf/onoff
+    chown system system /sys/devices/virtual/input/lge_sar_rf/checkallnear
+    chown system system /sys/devices/virtual/input/lge_sar_rf/docalibration
+
+    chmod 644 /sys/devices/virtual/input/lge_sar_rf/regreset
+    chmod 644 /sys/devices/virtual/input/lge_sar_rf/onoff
+    chmod 644 /sys/devices/virtual/input/lge_sar_rf/checkallnear
+    chmod 644 /sys/devices/virtual/input/lge_sar_rf/docalibration
+
+on post-fs-data
+    mkdir /mnt/vendor/persist-lg/sensor 0755 system system

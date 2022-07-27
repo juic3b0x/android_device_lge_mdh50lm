@@ -1,0 +1,63 @@
+#file will be installed as vendor/etc/init/hw/init.{ro.hardware}.rc
+
+# import $(TARGET_PRODUCT) vendor rc file
+import /vendor/etc/init/hw/init.${ro.hardware}_vendor.rc
+
+# import wifi service
+#import /vendor/etc/init/init.wifi.rc
+
+import /vendor/etc/init/hw/init.lge.sensors.rc
+import /vendor/etc/init/hw/init.lge.fingerprints.rc
+
+#import ti amp factorytest service
+import /vendor/etc/init/hw/init.lge.audio.rc
+
+on post-fs-data
+# NFC: create data/nfc for nv storage
+    mkdir /data/vendor/nfc 0770 nfc nfc
+
+    mkdir /data/vendor/power 0771 root system
+    chown system system /mnt/vendor/power
+    chmod 0771 /mnt/vendor/power
+    restorecon /mnt/vendor/power
+    restorecon_recursive /mnt/vendor/power
+
+on post-fs
+# Load exfat module
+    insmod /vendor/lib/modules/texfat.ko
+
+on property:ro.boot.vendor.lge.sim_num=1
+    setprop persist.radio.multisim.config ss
+
+on property:ro.boot.vendor.lge.sim_num=2
+    setprop persist.radio.multisim.config dsds
+
+#[START][SEC_USA][RSU] Start tsdemon
+service tsdaemon /vendor/bin/tsdaemon
+    class main
+    user system
+    group system net_admin net_raw
+    disabled
+
+service rsudaemon /vendor/bin/rsudaemon
+    class main
+    user system
+    group system net_admin net_raw
+    disabled
+
+on property:ro.vendor.lge.build.target_operator=TMO
+    enable tsdaemon
+
+on property:ro.vendor.lge.build.target_operator=MPCS
+    enable tsdaemon
+
+on property:ro.vendor.lge.build.target_operator=SPR
+    enable tsdaemon
+
+on property:ro.vendor.lge.build.target_operator=ATT
+    enable rsudaemon
+
+on property:ro.vendor.lge.build.target_operator=CRK
+    enable rsudaemon
+
+#[END][SEC_USA][RSU]
